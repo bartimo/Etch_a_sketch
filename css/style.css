@@ -3,6 +3,36 @@
     padding: 0;
 }
 
+body {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(211, 211, 211);
+    align-items: center;
+    justify-content: center;
+}
+
 h1 {
     font-size: 50px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    height: 600px;
+    width: 600px;
+    margin-top: 30px;
+
+}
+
+.grid {
+    display: flex;
+    border: 1px black solid;
+    flex: 1;
+}
+
+.gridRow {
+    display: flex;
+    flex:1;
 }
