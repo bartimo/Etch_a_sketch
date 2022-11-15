@@ -1,5 +1,5 @@
 //Variable Decelerations
-const gridSize = 16;  //To be set with button later
+const gridSize = 32;  //To be set with button later
 const container = document.querySelector('.container');
 const colorStep = -10;
 
