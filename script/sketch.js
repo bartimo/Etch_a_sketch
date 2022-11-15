@@ -1,7 +1,7 @@
 //Variable Decelerations
 const gridSize = 32;  //To be set with button later
-const container = document.querySelector('.container');
-const colorStep = -10;
+const gridContainer = document.querySelector('.gridContainer');
+const colorStep = -5;
 
 
 createGrid(gridSize)
@@ -17,7 +17,7 @@ function createGrid(size) {
     for (i = 1; i <= gridSize; i++) {
         let row = document.createElement('div');
         row.className = 'gridRow';
-        container.appendChild(row);
+        gridContainer.appendChild(row);
             for(j = 1; j <= gridSize; j++) {
                 let grid = document.createElement('div');
                 grid.id = j + "-" + i;
