@@ -99,4 +99,12 @@ h2 {
     font-size: 23px;
 }
 
+.toolButton {
+    border-radius: 5px;
+    height: 34px;
+    width: 34px;
+}
 
+.toolContainer {
+
+}

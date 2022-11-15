@@ -1,7 +1,11 @@
 //Variable Decelerations
+const STEP_BASIS = 20;
+const MAX_PRESSURE = 7;
+
 const gridSize = 32;  //To be set with button later
 const gridContainer = document.querySelector('.gridContainer');
-let colorStep = -5;
+let colorStepAmount = -38;
+
 
 
 createGrid(gridSize)
@@ -33,8 +37,6 @@ function createGrid(size) {
 
 function activateGridCell(cell) {
     console.log(cell.id);
-    let colorStepAmount = Math.round(256/colorStep);
-    //console.log(colorStepAmount);
     let gridElement = document.getElementById(cell.id);
 
     if (!gridElement.style.backgroundColor ) {
@@ -48,24 +50,34 @@ function activateGridCell(cell) {
 function stepColor(rgbString, stepAmount) {
     let hue = Number(rgbString.slice(4,rgbString.indexOf(","))); //get 'r' value from rgb color
     //console.log(`pre hue: "${hue}"`);
+    console.log(`pre mouseover rgb(${hue},${hue},${hue})`);
+    console.log(stepAmount);
     hue += stepAmount;
 
     if (hue <= 0 ? hue = 0 : hue); //prevent hue from going below 0
     if (hue >= 255 ? hue = 255 : hue); //prevent hue from going above 255
 
     //console.log(`post hue: "${hue}"`);
-    console.log(`rgb(${hue},${hue},${hue})`);
+    console.log(`post mouseover rgb(${hue},${hue},${hue})`);
     return `rgb(${hue},${hue},${hue})`
 }
 
 function changeStepAmount(amt) {
-    let stepAmount = Number(document.querySelector('.stepAmount').textContent);
+    let stepAmount = document.querySelector('.stepAmount').textContent;
+    if (stepAmount === "MAX") { stepAmount = MAX_PRESSURE } //UI reads MAX when fully changing square. Convert this to 6 for processing.
+    stepAmount = Number(stepAmount);
     stepAmount += amt;
-    if (stepAmount >=1 && stepAmount <= 20) {
-        document.querySelector('.stepAmount').textContent = stepAmount;
-        colorStep = stepAmount * -1;
+    if (stepAmount >=1 && stepAmount <= MAX_PRESSURE) {
+        if (stepAmount != MAX_PRESSURE) {
+            document.querySelector('.stepAmount').textContent = stepAmount;
+            //colorStep = stepAmount * -1;
+            colorStepAmount = Math.round((256 / STEP_BASIS) * stepAmount * -1);
+            console.log(colorStepAmount);
+        } else {
+            document.querySelector('.stepAmount').textContent = "MAX"
+            colorStepAmount = -255;
+        }
     }
-
 }
 
 function clearGrid() {
