@@ -32,6 +32,5 @@ function activateGridCell(cell) {
     let gridColor
     gridElement.style.backgroundColor = 'rgb(0, 0, 0)';
     console.log(gridElement.style.backgroundColor)
-    //item.classList.add('black');
 }
 
