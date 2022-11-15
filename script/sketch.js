@@ -1,7 +1,7 @@
 //Variable Decelerations
 const gridSize = 32;  //To be set with button later
 const gridContainer = document.querySelector('.gridContainer');
-const colorStep = -5;
+let colorStep = -5;
 
 
 createGrid(gridSize)
@@ -10,6 +10,10 @@ document.querySelectorAll('.grid').forEach(cell => {
     cell.addEventListener('mouseover', event => {
         activateGridCell(cell) }
     )});
+
+document.querySelector('#decreaseStep').addEventListener('click', function() { changeStepAmount(-1); });
+document.querySelector('#increaseStep').addEventListener('click', function() { changeStepAmount(1); });
+document.querySelector('#clearButton').addEventListener('click', function() { clearGrid(); });
 
 
 //Create an even grid of the provided size.
@@ -52,4 +56,20 @@ function stepColor(rgbString, stepAmount) {
     //console.log(`post hue: "${hue}"`);
     console.log(`rgb(${hue},${hue},${hue})`);
     return `rgb(${hue},${hue},${hue})`
+}
+
+function changeStepAmount(amt) {
+    let stepAmount = Number(document.querySelector('.stepAmount').textContent);
+    stepAmount += amt;
+    if (stepAmount >=1 && stepAmount <= 20) {
+        document.querySelector('.stepAmount').textContent = stepAmount;
+        colorStep = stepAmount * -1;
+    }
+
+}
+
+function clearGrid() {
+    document.querySelectorAll('.grid').forEach(cell => {
+        cell.style.backgroundColor = 'rgb(255,255,255)'
+        });
 }
