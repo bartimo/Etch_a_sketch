@@ -1,6 +1,7 @@
 //Variable Decelerations
 const gridSize = 16;  //To be set with button later
 const container = document.querySelector('.container');
+const colorStep = -10;
 
 
 createGrid(gridSize)
@@ -28,9 +29,27 @@ function createGrid(size) {
 
 function activateGridCell(cell) {
     console.log(cell.id);
+    let colorStepAmount = Math.round(256/colorStep);
+    //console.log(colorStepAmount);
     let gridElement = document.getElementById(cell.id);
-    let gridColor
-    gridElement.style.backgroundColor = 'rgb(0, 0, 0)';
-    console.log(gridElement.style.backgroundColor)
+
+    if (!gridElement.style.backgroundColor ) {
+        gridElement.style.backgroundColor = 'rgb(255, 255, 255)';
+    } 
+    gridElement.style.backgroundColor = stepColor(gridElement.style.backgroundColor, colorStepAmount);
+    
 }
 
+//Determine the next step of shade to color the cell
+function stepColor(rgbString, stepAmount) {
+    let hue = Number(rgbString.slice(4,rgbString.indexOf(","))); //get 'r' value from rgb color
+    //console.log(`pre hue: "${hue}"`);
+    hue += stepAmount;
+
+    if (hue <= 0 ? hue = 0 : hue); //prevent hue from going below 0
+    if (hue >= 255 ? hue = 255 : hue); //prevent hue from going above 255
+
+    //console.log(`post hue: "${hue}"`);
+    console.log(`rgb(${hue},${hue},${hue})`);
+    return `rgb(${hue},${hue},${hue})`
+}
