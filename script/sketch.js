@@ -5,20 +5,23 @@ const MAX_PRESSURE = 7;
 const gridSize = 32;  //To be set with button later
 const gridContainer = document.querySelector('.gridContainer');
 let colorStepAmount = -38;
+let stepDirection = 1; // stepDirection 1 darkens image, stepDirection -1 lightens image. 
 
 
-
-createGrid(gridSize)
+//Initialize Screen
+createGrid(gridSize);
+setPencil();
 
 document.querySelectorAll('.grid').forEach(cell => {
     cell.addEventListener('mouseover', event => {
-        activateGridCell(cell) }
+        activateGridCell(cell,drawMode) }
     )});
 
 document.querySelector('#decreaseStep').addEventListener('click', function() { changeStepAmount(-1); });
 document.querySelector('#increaseStep').addEventListener('click', function() { changeStepAmount(1); });
 document.querySelector('#clearButton').addEventListener('click', function() { clearGrid(); });
-
+document.querySelector('#pencilButton').addEventListener('click', function() { setPencil(); });
+document.querySelector('#eraserButton').addEventListener('click', function() { setEraser(); });
 
 //Create an even grid of the provided size.
 function createGrid(size) {
@@ -49,10 +52,11 @@ function activateGridCell(cell) {
 //Determine the next step of shade to color the cell
 function stepColor(rgbString, stepAmount) {
     let hue = Number(rgbString.slice(4,rgbString.indexOf(","))); //get 'r' value from rgb color
-    //console.log(`pre hue: "${hue}"`);
+
+
     console.log(`pre mouseover rgb(${hue},${hue},${hue})`);
     console.log(stepAmount);
-    hue += stepAmount;
+    hue += stepAmount * stepDirection;
 
     if (hue <= 0 ? hue = 0 : hue); //prevent hue from going below 0
     if (hue >= 255 ? hue = 255 : hue); //prevent hue from going above 255
@@ -78,6 +82,20 @@ function changeStepAmount(amt) {
             colorStepAmount = -255;
         }
     }
+}
+
+function setPencil() {
+    document.querySelector('#pencilButton').classList.add('toolButtonActive');
+    document.querySelector('#eraserButton').classList.remove('toolButtonActive');
+    drawMode = "PENCIL";
+    stepDirection = 1;
+}
+
+function setEraser() {
+    document.querySelector('#eraserButton').classList.add('toolButtonActive');
+    document.querySelector('#pencilButton').classList.remove('toolButtonActive');
+    drawMode = "ERASER";
+    stepDirection = -1;
 }
 
 function clearGrid() {

@@ -106,5 +106,10 @@ h2 {
 }
 
 .toolContainer {
+    display: flex;
+    gap: 10px;
+}
 
+.toolButtonActive {
+    border: 1px solid red;
 }
