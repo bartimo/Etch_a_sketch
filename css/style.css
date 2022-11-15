@@ -30,9 +30,11 @@ h1 {
     display: flex;
     border: 1px black solid;
     flex: 1;
+    background-color: rgb(255, 255, 255);
 }
 
 .gridRow {
     display: flex;
     flex:1;
 }
+
