@@ -1,27 +1,47 @@
 //Variable Decelerations
 const STEP_BASIS = 20;
 const MAX_PRESSURE = 7;
-
-const gridSize = 32;  //To be set with button later
 const gridContainer = document.querySelector('.gridContainer');
+
+
+let gridSize = 20;  //To be set with button later
 let colorStepAmount = -38;
 let stepDirection = 1; // stepDirection 1 darkens image, stepDirection -1 lightens image. 
+let penActive = true; //set to false to allow mouse to move on grid without activating cells.
 
 
 //Initialize Screen
 createGrid(gridSize);
 setPencil();
+setGridListeners();
 
-document.querySelectorAll('.grid').forEach(cell => {
-    cell.addEventListener('mouseover', event => {
-        activateGridCell(cell,drawMode) }
-    )});
 
 document.querySelector('#decreaseStep').addEventListener('click', function() { changeStepAmount(-1); });
 document.querySelector('#increaseStep').addEventListener('click', function() { changeStepAmount(1); });
+document.querySelector('#decreaseSize').addEventListener('click', function() { changeSizeAmount(-1); });
+document.querySelector('#increaseSize').addEventListener('click', function() { changeSizeAmount(1); });
 document.querySelector('#clearButton').addEventListener('click', function() { clearGrid(); });
 document.querySelector('#pencilButton').addEventListener('click', function() { setPencil(); });
 document.querySelector('#eraserButton').addEventListener('click', function() { setEraser(); });
+
+//Listen for space bar to toggle if Pen is up or down. if Pen is up it will not interact with grid.
+document.addEventListener('keydown', function(event) {
+    if(event.key == ' ') {
+        let pen =document.querySelector('#pen'); 
+        if (penActive) {
+            penActive = false;
+            pen.classList.remove('penDown');
+            pen.classList.add('penUp');
+            pen.textContent = 'Pen Up'
+
+        } else {
+            penActive = true;
+            pen.classList.remove('penUp');
+            pen.classList.add('penDown');
+            pen.textContent = 'Pen Down'
+        }
+    }
+});
 
 //Create an even grid of the provided size.
 function createGrid(size) {
@@ -38,22 +58,29 @@ function createGrid(size) {
     }
 }
 
-function activateGridCell(cell) {
-    console.log(cell.id);
-    let gridElement = document.getElementById(cell.id);
+function setGridListeners() {
+    document.querySelectorAll('.grid').forEach(cell => {
+        cell.addEventListener('mouseover', event => {
+            activateGridCell(cell,drawMode) }
+        )});
+}
 
-    if (!gridElement.style.backgroundColor ) {
-        gridElement.style.backgroundColor = 'rgb(255, 255, 255)';
+function activateGridCell(cell) {
+    //console.log(cell.id);
+    if(penActive) {
+        let gridElement = document.getElementById(cell.id);
+
+        if (!gridElement.style.backgroundColor ) {
+            gridElement.style.backgroundColor = 'rgb(255, 255, 255)';
+        } 
+        gridElement.style.backgroundColor = stepColor(gridElement.style.backgroundColor, colorStepAmount);
     } 
-    gridElement.style.backgroundColor = stepColor(gridElement.style.backgroundColor, colorStepAmount);
     
 }
 
 //Determine the next step of shade to color the cell
 function stepColor(rgbString, stepAmount) {
     let hue = Number(rgbString.slice(4,rgbString.indexOf(","))); //get 'r' value from rgb color
-
-
     console.log(`pre mouseover rgb(${hue},${hue},${hue})`);
     console.log(stepAmount);
     hue += stepAmount * stepDirection;
@@ -67,21 +94,26 @@ function stepColor(rgbString, stepAmount) {
 }
 
 function changeStepAmount(amt) {
-    let stepAmount = document.querySelector('.stepAmount').textContent;
+    let stepAmount = document.querySelector('#pressureAmount').textContent;
     if (stepAmount === "MAX") { stepAmount = MAX_PRESSURE } //UI reads MAX when fully changing square. Convert this to 6 for processing.
     stepAmount = Number(stepAmount);
     stepAmount += amt;
     if (stepAmount >=1 && stepAmount <= MAX_PRESSURE) {
         if (stepAmount != MAX_PRESSURE) {
-            document.querySelector('.stepAmount').textContent = stepAmount;
+            document.querySelector('#pressureAmount').textContent = stepAmount;
             //colorStep = stepAmount * -1;
             colorStepAmount = Math.round((256 / STEP_BASIS) * stepAmount * -1);
             console.log(colorStepAmount);
         } else {
-            document.querySelector('.stepAmount').textContent = "MAX"
+            document.querySelector('#pressureAmount').textContent = "MAX"
             colorStepAmount = -255;
         }
     }
+}
+
+function changeSizeAmount(step) {
+    gridSize += step;
+    document.querySelector('#gridSize').textContent = gridSize;
 }
 
 function setPencil() {
@@ -99,7 +131,11 @@ function setEraser() {
 }
 
 function clearGrid() {
-    document.querySelectorAll('.grid').forEach(cell => {
-        cell.style.backgroundColor = 'rgb(255,255,255)'
-        });
-}
+        var div = document.querySelector('.gridContainer');
+        while(div.firstChild) {
+            div.removeChild(div.firstChild);
+        }
+        createGrid(gridSize);
+        setGridListeners();
+    }
+    
