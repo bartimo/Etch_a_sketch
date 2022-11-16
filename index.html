@@ -23,10 +23,24 @@
                     <button id="decreaseStep" class="stepButton"><<</button>
                     <button id="increaseStep" class="stepButton">>></button>
                 </div>
-                <div class="stepAmount">3</div>
+                <div id ='pressureAmount' class="stepAmount">3</div>
             </div>
-            <div class="penDown">PenDown</div>
-            <button id="clearButton">Clear</button>
+            <div class="penContainer">
+                <div id="pen" class="penDown">Pen Down</div>
+                <div>toggle 'space'</div>
+            </div>
+
+            
+            <div class="gridControlContainer"></div>
+            <div class="stepTool">
+                <h2>Size</h2>
+                <div class="stepButtonContainer">
+                    <button id="decreaseSize" class="stepButton"><<</button>
+                    <button id="increaseSize" class="stepButton">>></button>
+                </div>
+                <div id ='gridSize' class="stepAmount">20</div>
+            </div>
+            <button id="clearButton">shake</button>
         </div>
     </div>  
 </body>

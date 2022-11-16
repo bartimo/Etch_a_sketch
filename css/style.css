@@ -19,8 +19,6 @@ h2 {
     font-size: 20px
 }
 
-
-
 .grid {
     display: flex;
     border: 1px black solid;
@@ -63,10 +61,10 @@ h2 {
 }
 
 #clearButton {
-    background-color: rgb(255, 173, 173);
+    background-color: rgb(187, 0, 0);
     font-size: 30px;
-    padding: 4px 18px;
-    border-radius: 20px;
+    padding: 3px 18px;
+    border-radius: 10px;
 }
 
 .stepTool {
@@ -105,6 +103,16 @@ h2 {
     width: 34px;
 }
 
+.gridControlContainer {
+    display: flex;
+    gap: 5px;
+}
+
+.settingsContainer {
+    display: flex;
+    flex-direction: ;
+}
+
 .toolContainer {
     display: flex;
     gap: 10px;
@@ -112,4 +120,29 @@ h2 {
 
 .toolButtonActive {
     border: 1px solid red;
+}
+
+#pen {
+    border: 1px solid black;
+    font-size: 20px;
+    padding: 2px 4px;
+    border-radius: 5px;
+    width: 90px;
+    text-align: center;
+
+}
+
+.penContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.penUp {
+    background-color: rgb(187, 0, 0);
+    color: #FFF;
+}
+
+.penDown {
+    background-color: #FFF;
 }
